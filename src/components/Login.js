@@ -5,6 +5,19 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
 
+  const users = [
+    {
+      userName: "or",
+      password: "1234",
+    },
+    {
+      userName: "binyamin",
+      password: "1234",
+    },
+  ]
+
+
+
   const navigate = useNavigate();
 
   const { setAuth } = useContext(AuthContext);
@@ -27,10 +40,14 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setUser('');
-    setPwd('');
-    setSuccess(true);
-    navigate("/Account")
+    if (users.find(u => u.userName === user) && users.find(u => u.password === pwd)) {
+      setUser('');
+      setPwd('');
+      setSuccess(true);
+      navigate("/Account")
+    } else {
+      setErrMsg("The name or the password arent correct");
+    }
   }
 
   return (
