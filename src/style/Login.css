@@ -1,8 +1,9 @@
 section {
+  display: flex;
+  align-items: center;
   width: 100%;
   max-width: 420px;
   min-height: 400px;
-  display: flex;
   flex-direction: column;
   justify-content: flex-start;
   padding: 1rem;
@@ -72,3 +73,13 @@ button {
 .line {
   display: inline-block;
 }
+
+.app {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh; 
+  padding: 1rem 0.5rem;
+  }
+  
