@@ -6,6 +6,7 @@ import ManageQuestions from './components/ManageQuestions';
 import ManageTests from './components/ManageTests';
 import Reports from './components/Reports';
 import { Route, Routes } from "react-router-dom";
+import NewTest from './components/NewTest';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/ManageTests" element={<ManageTests />} />
         <Route path="/Reports" element={<Reports />} />
         <Route path="/ManageTests" element={<ManageTests />} />
+        <Route path='/NewTest' element={<NewTest />} />
 
       </Routes>
     </>

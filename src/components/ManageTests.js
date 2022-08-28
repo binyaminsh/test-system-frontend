@@ -13,7 +13,7 @@ const ManageTests = () => {
         <div className="item2 : item ">Link</div>
         <div className="item3 : item ">TestName</div>
         <div className="item4 : item ">Num Of Questions</div>
-        <div className="item5 : item  ">Last Updated</div>
+        <div className="item5 : item ">Last Updated</div>
         <div className="item6 : item ">Type</div>
         <div className="item7 : item ">Version</div>
         <div className="item8 : item "></div>
@@ -24,10 +24,10 @@ const ManageTests = () => {
         <div className="item5 : itembg">6/12/2018</div>
         <div className="item6 : itembg">Predefined</div>
         <div className="item7 : itembg">1</div>
-        <div className="item8 : itembg"  ><button className="btn"> Edit</button> <button className="btn"> Duplicate</button> <a className='active'>Active</a></div>
+        <div className="item8 : itembg"><button className="btn"> Edit</button> <button className="btn"> Duplicate</button> <a className='active'>Active</a></div>
         <div className="item1 : itembg">6</div>
         <div className="item2 : itembg"><button className="btn"> Copy</button></div>
-        <div className="item3: itembg">מבחן הערכה - DOM and Javascript</div>
+        <div className="item3 : itembg">מבחן הערכה - DOM and Javascript</div>
         <div className="item4 : itembg">8 / 9</div>
         <div className="item5 : itembg">10/12/2018</div>
         <div className="item6 : itembg">Random</div>
