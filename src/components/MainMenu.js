@@ -1,73 +1,54 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Account from './Account';
 import "../style/MainMenu.css"
+import axios from '../api/axios';
+import useAuth from '../hooks/useAuth';
 
 
 const MainMenu = () => {
     const navigate = useNavigate();
     const [isSelect, setIsSelect] = useState("Not Selected");
+    const TOPICS_URL = '/topics';
+    const [topics, setTopics] = useState([{name: 'Not Selected', companyId: {}}]);
+    const { auth } = useAuth();
     const handleChange = async (e) => {
         setIsSelect(e.target.value);
-
+        console.log(e.target.value)
     }
-    const options = [
-        {
-
-            label: "Not Selected",
-            value: "Not Selected",
+    useEffect(() => {
+        const getTopics = async () => {
+            const response = await axios.get(TOPICS_URL, {
+                headers: ({
+                    Authorization: 'Bearer ' + auth.token,
+                })
+            });
+            const temp = [...topics, ...response.data]
             
-        },
-        {
-            label: "Math",
-            value: "Math",
-            id: "1",
-        },
-        {
-            label: "Hebrew",
-            value: "Hebrew",
-            id: "2",
-        },
-        {
-            label: "English",
-            value: "English",
-            id: "2",
-        },
-        {
-            label: "Arabic",
-            value: "Arabic",
-            id: "3",
-        },
-        {
-            label: "French",
-            value: "French",
-            id: "4",
-        },
-        {
-            label: "England",
-            value: "England",
-            id: "4",
-        },
-
-    ];
-    const loctaion = useLocation();
+            setTopics(temp);
+        }
+        getTopics();
+    }, [])
+    const location = useLocation();
     return (
         <>
             <div className="app2">
                 <section>
                     <header>
-                        <h2>Main Menu  {loctaion.state.userId}</h2>
+                        <h2>Main Menu  {location.state.name}</h2>
                     </header>
                     <main>
-                        <p> choose a field of study  <select onChange={handleChange} >
-                            {options.filter(o => o.id === loctaion.state.userId).map((option) => (<option value={option.value} key={option.value}>{option.label}</option>))}
-                        </select></p>
+                        <p> choose a field of study  
+                            <select onChange={handleChange} >
+                            {topics.filter(t => t.companyId.name === location.state.name).map((topic, i) => (<option value={topic.name} key={i}>{topic.name}</option>))}
+                            </select>
+                        </p>
                     </main>
                     {isSelect !== "Not Selected" ? (
                         <ul>
-                            <li><Link to="/ManageQuestions"> Manage Questions </Link> </li>
-                            <li><Link to="/ManageTests"> Manage Tests </Link></li>
-                            <li><Link to="/Reports"> Reports </Link> </li>
+                            <li><Link to="/manageQuestions"> Manage Questions </Link> </li>
+                            <li><Link to="/manageTests"> Manage Tests </Link></li>
+                            <li><Link to="/reports"> Reports </Link> </li>
                         </ul>
                     ) : (
                         <p>select some topic</p>

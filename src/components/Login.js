@@ -1,36 +1,25 @@
 import "../style/Login.css";
-import React, { useRef, useEffect, useState, useContext } from "react";
-import AuthContext from "../context/AuthProvider";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useRef, useEffect, useState } from "react";
+import { useNavigate, Link, useLocation } from "react-router-dom";
+import axios, { axiosWithToken } from "../api/axios";
+import useAuth from "../hooks/useAuth";
+const LOGIN_URL = '/auth/login';
+
 
 const Login = () => {
 
-  const users = [
-    {
-      userName: "or",
-      password: "1234",
-    },
-    {
-      userName: "binyamin",
-      password: "1234",
-    },
-  ]
-
-
-
   const navigate = useNavigate();
-
-  const { setAuth } = useContext(AuthContext);
+  const location = useLocation();
+  const from = location?.state?.from?.pathname || '/account';
+  const { auth, setAuth } = useAuth();
   const userRef = useRef();
   const errRef = useRef();
 
   const [user, setUser] = useState("");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    // useRef.current.focus();
     userRef.current.focus();
   }, []);
 
@@ -40,28 +29,34 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (users.find(u => u.userName === user) && users.find(u => u.password === pwd)) {
-      setUser('');
-      setPwd('');
-      setSuccess(true);
-      navigate("/Account")
-    } else {
-      setErrMsg("The name or the password arent correct");
+
+    try {
+      const response = await axios.post(LOGIN_URL, 
+        JSON.stringify({username: user, password: pwd}),
+        {
+          headers: {'Content-Type': 'application/json'},
+          withCredentials: true
+        }
+      )
+      const token = response.data.token;
+      
+        setAuth({ user, pwd, token })
+        setUser('');
+        setPwd('');
+        navigate(from, { replace: true})
+      
+    } catch (error) {
+      if(!error.response){
+        setErrMsg(error.message)
+      }else if(error.response.status === 401){
+        setErrMsg('username or password are incorrect');
+      }
     }
   }
 
   return (
     <>
       <div className="app">
-        {success ? (
-          <section>
-            <h1>You are logged in!</h1>
-            <br />
-            <p>
-              <Link to="/Account"> go to your account </Link>
-            </p>
-          </section>
-        ) : (
           <section>
             <p
               ref={errRef}
@@ -97,12 +92,10 @@ const Login = () => {
               Need an Account?
               <br />
               <span className="line">
-                {/*put router link here*/}
-                <a href="#">Sign Up</a>
+              <Link to={'/register'}>Sign Up</Link>
               </span>
             </p>
           </section>
-        )}
       </div>
     </>
   );
