@@ -1,43 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom";
+import axios from '../api/axios';
 
 
 const Account = () => {
-
+    const [accounts, setAccounts] = useState([]);
+    const token = localStorage.getItem('token');
+    const ACCOUNTS_URL = '/companies';
     const navigate = useNavigate();
     const handleChange = async (e) => {
-        navigate("/MainMenu", { state: { userId: e.target.value } })
+        navigate("/mainMenu", { state: { name: e.target.value } })
 
     }
-    const options = [
-        {
-
-            label: "Not Selected",
-            value: "Not Selected",
-            id: "0",
-        },
-        {
-            label: "Sela",
-            value: "Sela",
-            id: "1",
-        },
-        {
-            label: "Microsof",
-            value: "Microsof",
-            id: "2",
-        },
-        {
-            label: "Google",
-            value: "Google",
-            id: "3",
-        },
-        {
-            label: "Amazon",
-            value: "Amazon",
-            id: "4",
-        },
-    ];
-
+    useEffect(() => {
+        
+        const getAccounts = async () => {
+            
+            const response = await axios.get(ACCOUNTS_URL, {
+                headers: ({
+                    Authorization: 'Bearer ' + token,
+                })
+            });
+            const a = [...accounts, ...response.data]
+            setAccounts(a);
+        }
+        getAccounts();
+      }, []);
 
     return (
         <div>
@@ -48,7 +36,8 @@ const Account = () => {
                 <p>choose your account?</p>
                 <div>
                     <select onChange={handleChange} >
-                        {options.map((option) => (<option value={option.id} key={option.value}>{option.label}</option>))}
+                        <option value={'Not Selected'}>Not Selected</option>
+                        {accounts.map((account, i) => (<option value={account.name} key={i}>{account.name}</option>))}
                     </select>
                 </div>
             </div>

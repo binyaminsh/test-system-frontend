@@ -1,4 +1,13 @@
 .header{
+   
+    }
+
+.auth-button{
+    display: flex;
+    justify-content: flex-end;
+}
+
+nav {
     display:flex;
     justify-content: space-between;
     align-items :flex-end;
@@ -6,4 +15,4 @@
     width: 100%;
     height: 90px;
     z-index: 10;
-    }
+}
