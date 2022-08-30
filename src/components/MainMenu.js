@@ -1,65 +1,68 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import Account from './Account';
-import "../style/MainMenu.css"
-import axios from '../api/axios';
-import useAuth from '../hooks/useAuth';
-
+import "../style/MainMenu.css";
+import { getAllTopics } from "../services/topicsService";
 
 const MainMenu = () => {
-    const navigate = useNavigate();
-    const [isSelect, setIsSelect] = useState("Not Selected");
-    const TOPICS_URL = '/topics';
-    const [topics, setTopics] = useState([]);
-    const { auth } = useAuth();
-    const token = localStorage.getItem('token')
-    const handleChange = async (e) => {
-        setIsSelect(e.target.value);
-        console.log(e.target.value)
-    }
-    useEffect(() => {
-        const getTopics = async () => {
-            const response = await axios.get(TOPICS_URL, {
-                headers: ({
-                    Authorization: 'Bearer ' + token,
-                })
-            });
-            const temp = [...topics, ...response.data]
-            
-            setTopics(temp);
-        }
-        getTopics();
-    }, [])
-    const location = useLocation();
-    return (
-        <>
-            <div className="app2">
-                <section>
-                    <header>
-                        <h2>Main Menu  {location.state.name}</h2>
-                    </header>
-                    <main>
-                        <p> choose a field of study  
-                            <select onChange={handleChange} >
-                            <option value={'Not Selected'}></option>
-                            {topics.filter(t => t.companyId.name === location.state.name).map((topic, i) => (<option value={topic.name} key={i}>{topic.name}</option>))}
-                            </select>
-                        </p>
-                    </main>
-                    {isSelect !== "Not Selected" ? (
-                        <ul>
-                            <li><Link to="/manageQuestions"> Manage Questions </Link> </li>
-                            <li><Link to="/manageTests"> Manage Tests </Link></li>
-                            <li><Link to="/reports"> Reports </Link> </li>
-                        </ul>
-                    ) : (
-                        <p>select some topic</p>
-                    )
-                    }
-                </section>
-            </div>
-        </>
-    )
-}
+  const navigate = useNavigate();
+  const [isSelect, setIsSelect] = useState("Not Selected");
+  const [topics, setTopics] = useState([]);
+  const location = useLocation();
+  const accountId = location.state.id;
+  const handleChange = (e) => {
+    setIsSelect(e.target.value);
+  };
+  useEffect(() => {
+    const getTopics = async () => {
+      const data = await getAllTopics(accountId); 
+      const temp = [...data];
 
-export default MainMenu
+      setTopics(temp);
+    };
+    getTopics();
+  }, []);
+
+  return (
+    <>
+      <div className="app2">
+        <section>
+          <header>
+            <h2>Main Menu {}</h2>
+          </header>
+          <main>
+            <p>
+              {" "}
+              choose a field of study
+              <select onChange={handleChange}>
+                <option value={"Not Selected"}>Not Selected</option>
+                {topics
+                  .map((topic, i) => (
+                    <option value={topic.name} key={i}>
+                      {topic.name}
+                    </option>
+                  ))}
+              </select>
+            </p>
+          </main>
+          {isSelect !== "Not Selected" ? (
+            <ul>
+              <li>
+                <Link to={{pathname: "/manageQuestions", state: { name: 'asadsd'} }}>Manage Question</Link>
+              </li>
+              <li>
+                <Link to="/manageTests"> Manage Tests </Link>
+              </li>
+              <li>
+                <Link to="/reports"> Reports </Link>{" "}
+              </li>
+            </ul>
+          ) : (
+            <p>select some topic</p>
+          )}
+        </section>
+      </div>
+    </>
+  );
+};
+
+export default MainMenu;
