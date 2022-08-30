@@ -16,7 +16,8 @@ const MainMenu = () => {
 
             label: "Not Selected",
             value: "Not Selected",
-            
+            id: "0",
+
         },
         {
             label: "Math",
@@ -60,6 +61,7 @@ const MainMenu = () => {
                     </header>
                     <main>
                         <p> choose a field of study  <select onChange={handleChange} >
+                            <option>{options[0].value}</option>
                             {options.filter(o => o.id === loctaion.state.userId).map((option) => (<option value={option.value} key={option.value}>{option.label}</option>))}
                         </select></p>
                     </main>

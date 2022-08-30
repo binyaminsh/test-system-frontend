@@ -19,9 +19,7 @@ function App() {
         <Route path="/ManageQuestions" element={<ManageQuestions />} />
         <Route path="/ManageTests" element={<ManageTests />} />
         <Route path="/Reports" element={<Reports />} />
-        <Route path="/ManageTests" element={<ManageTests />} />
         <Route path='/NewTest' element={<NewTest />} />
-
       </Routes>
     </>
   );

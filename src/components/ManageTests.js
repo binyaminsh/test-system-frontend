@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../style/ManageTests.css';
 
 const ManageTests = () => {
@@ -43,7 +44,8 @@ const ManageTests = () => {
         <div className="item8 : itembg"><button className="btn"> Edit</button> <button className="btn"> Duplicate</button> <a className='active'>Active</a></div>
       </div>
       <p className='p'>showing "*" of "*" available Test</p>
-      <button className="btn : left"> Back </button> <button className='btn : right'> Create a Test</button>
+      <button className="btn : left" > <Link to={""}>Back</Link> </button>
+      <button className='btn : right'> <Link to={"/NewTest"}>Create a Test</Link></button>
     </>
   )
 }
