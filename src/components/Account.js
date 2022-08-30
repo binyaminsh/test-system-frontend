@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import axios from '../api/axios';
-import { axiosWithToken } from '../api/axios';
-import useAuth from '../hooks/useAuth';
+
 
 const Account = () => {
-    const [accounts, setAccounts] = useState([{name: 'not selected'}]);
-    const { auth } = useAuth();
+    const [accounts, setAccounts] = useState([]);
+    const token = localStorage.getItem('token');
     const ACCOUNTS_URL = '/companies';
     const navigate = useNavigate();
     const handleChange = async (e) => {
-        console.log(e.target.value)
         navigate("/mainMenu", { state: { name: e.target.value } })
 
     }
@@ -20,7 +18,7 @@ const Account = () => {
             
             const response = await axios.get(ACCOUNTS_URL, {
                 headers: ({
-                    Authorization: 'Bearer ' + auth.token,
+                    Authorization: 'Bearer ' + token,
                 })
             });
             const a = [...accounts, ...response.data]
@@ -38,6 +36,7 @@ const Account = () => {
                 <p>choose your account?</p>
                 <div>
                     <select onChange={handleChange} >
+                        <option value={'Not Selected'}>Not Selected</option>
                         {accounts.map((account, i) => (<option value={account.name} key={i}>{account.name}</option>))}
                     </select>
                 </div>

@@ -10,8 +10,9 @@ const MainMenu = () => {
     const navigate = useNavigate();
     const [isSelect, setIsSelect] = useState("Not Selected");
     const TOPICS_URL = '/topics';
-    const [topics, setTopics] = useState([{name: 'Not Selected', companyId: {}}]);
+    const [topics, setTopics] = useState([]);
     const { auth } = useAuth();
+    const token = localStorage.getItem('token')
     const handleChange = async (e) => {
         setIsSelect(e.target.value);
         console.log(e.target.value)
@@ -20,7 +21,7 @@ const MainMenu = () => {
         const getTopics = async () => {
             const response = await axios.get(TOPICS_URL, {
                 headers: ({
-                    Authorization: 'Bearer ' + auth.token,
+                    Authorization: 'Bearer ' + token,
                 })
             });
             const temp = [...topics, ...response.data]
@@ -40,6 +41,7 @@ const MainMenu = () => {
                     <main>
                         <p> choose a field of study  
                             <select onChange={handleChange} >
+                            <option value={'Not Selected'}></option>
                             {topics.filter(t => t.companyId.name === location.state.name).map((topic, i) => (<option value={topic.name} key={i}>{topic.name}</option>))}
                             </select>
                         </p>

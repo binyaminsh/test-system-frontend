@@ -4,9 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 function NavBar() {
   const { auth, setAuth } = useAuth();
+  const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const handleLogout = (e) => {
     setAuth({});
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     navigate("/login");
   };
   return (
@@ -18,8 +21,7 @@ function NavBar() {
         </h1>
       </span>
       <span className="auth-button">
-        {" "}
-        {auth.user ? (
+        {token ? (
           <button onClick={handleLogout}>Logout</button>
         ) : (
           <button

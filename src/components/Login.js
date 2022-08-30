@@ -1,17 +1,15 @@
 import "../style/Login.css";
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
-import axios, { axiosWithToken } from "../api/axios";
-import useAuth from "../hooks/useAuth";
-const LOGIN_URL = '/auth/login';
+import { login } from "../services/authService";
 
 
-const Login = () => {
 
+export const Login = () => {
+  
   const navigate = useNavigate();
   const location = useLocation();
   const from = location?.state?.from?.pathname || '/account';
-  const { auth, setAuth } = useAuth();
   const userRef = useRef();
   const errRef = useRef();
 
@@ -29,28 +27,13 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      const response = await axios.post(LOGIN_URL, 
-        JSON.stringify({username: user, password: pwd}),
-        {
-          headers: {'Content-Type': 'application/json'},
-          withCredentials: true
-        }
-      )
-      const token = response.data.token;
-      
-        setAuth({ user, pwd, token })
-        setUser('');
-        setPwd('');
-        navigate(from, { replace: true})
-      
-    } catch (error) {
-      if(!error.response){
-        setErrMsg(error.message)
-      }else if(error.response.status === 401){
-        setErrMsg('username or password are incorrect');
-      }
+    const response = await login(user, pwd);
+    if(response){
+      setErrMsg(response)
+    } else {
+      setUser('');
+      setPwd('');
+      navigate(from, { replace: true})
     }
   }
 
