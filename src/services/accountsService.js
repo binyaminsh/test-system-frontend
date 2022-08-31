@@ -2,9 +2,9 @@ import axios from 'axios';
 
 export const getAllAccounts = async () => {
     const token = localStorage.getItem('token');
-    const GET_ALL_ACCOUNTS= process.env.REACT_APP_ACCOUNTS_URL;     
+    const URL= process.env.REACT_APP_ACCOUNTS_URL;     
     try {
-        const response = await axios.get(GET_ALL_ACCOUNTS, {
+        const response = await axios.get(URL, {
             withCredentials: true,
             headers: ({
                 Authorization: 'Bearer ' + token,

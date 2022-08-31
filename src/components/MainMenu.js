@@ -37,7 +37,7 @@ const MainMenu = () => {
                 <option value={"Not Selected"}>Not Selected</option>
                 {topics
                   .map((topic, i) => (
-                    <option value={topic.name} key={i}>
+                    <option value={topic._id} key={i}>
                       {topic.name}
                     </option>
                   ))}
@@ -47,7 +47,7 @@ const MainMenu = () => {
           {isSelect !== "Not Selected" ? (
             <ul>
               <li>
-                <Link to={{pathname: "/manageQuestions", state: { name: 'asadsd'} }}>Manage Question</Link>
+                <Link to={'/manageQuestions/' + isSelect}>Manage Question</Link>
               </li>
               <li>
                 <Link to="/manageTests"> Manage Tests </Link>

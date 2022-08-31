@@ -1,8 +1,10 @@
 import React from 'react'
 
-const Question = () => {
+const Question = ({ question }) => {
   return (
-    <div>question</div>
+    <tr key={question._id}>
+      {Object.values(question).map((val) => (<td>{val}</td>))}
+    </tr>
   )
 }
 
