@@ -17,13 +17,12 @@ export const createQuestion = async (createQuestionDto) => {
 }
 export const getAllQuestions = async (topicId) => {
   try {
-    const response = await axios.get(URL + topicId, {
+    const response = await axios.get(`${URL}?topicId=${topicId}`, {
       withCredentials: true,
       headers: {
         Authorization: "Bearer " + token,
       },
     });
-
     return response.data;
   } catch (error) {
     console.log(error.message);

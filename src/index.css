@@ -33,3 +33,20 @@ td {
   margin: 0px 0px;
   padding: 5px 5px;
 }
+
+.questions-table {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.qst-nav-btn {
+  display: flex;
+  justify-content: space-between;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
