@@ -21,19 +21,21 @@ const Account = () => {
       }, []);
 
     return (
-        <div>
-            <div className='head'>
-                <h2 > Administration System </h2>
-            </div>
-            <div >
-                <p>choose your account?</p>
-                <div>
-                    <select onChange={handleChange} >
-                        <option value={'Not Selected'}>Not Selected</option>
-                        {accounts.map((account, i) => (<option value={account._id} key={i}>{account.name}</option>))}
-                    </select>
+        <div className='app2'>
+            <section>
+                <div className='head'>
+                    <h2 > Administration System </h2>
                 </div>
-            </div>
+                <div >
+                    <p>choose your account?</p>
+                    <div>
+                        <select onChange={handleChange} >
+                            <option value={'Not Selected'}>Not Selected</option>
+                            {accounts.map((account, i) => (<option value={account._id} key={i}>{account.name}</option>))}
+                        </select>
+                    </div>
+                </div>
+            </section>
         </div >
     )
 }

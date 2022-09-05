@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getAllQuestions } from '../services/questionsService';
 import QuestionsTable from "./QuestionsTable";
 import Pagination from "./Pagination";
 import SearchBar from "./SearchBar";
 const ManageQuestions = () => {
   const navigate = useNavigate();
-  const { topic } = useParams();
+  const location = useLocation();
+  const { selectedTopic: topic } = location.state;
   const [questions, setQuestions] = useState([]);
   const [searchResults, setSearchResults] = useState([])
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10)
   const handleClickBack = () => navigate(-1);
-  const handleClickCreate = () => navigate();
+  const handleClickCreate = () => navigate('create', { state: {selectedTopic: topic} });
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = searchResults.slice(indexOfFirstItem, indexOfLastItem);
@@ -21,9 +22,12 @@ const ManageQuestions = () => {
   useEffect(() => {
     const getQuestions = async () => {
       setLoading(true)
-      //console.log(topic)
       try {
-        const data = await getAllQuestions(topic);
+        const data = await getAllQuestions(topic._id);
+        data.map((element, i) => {
+          return element.id = i +1;
+        });
+        
         setQuestions(data);
         setSearchResults(data);
         setLoading(false)
@@ -38,8 +42,9 @@ const ManageQuestions = () => {
 
   return (
     <main>
+      <h4>available questions for {topic.name}</h4>
        <SearchBar data={questions} setSearchResults={setSearchResults}/>
-       <QuestionsTable questions={currentItems} loading={loading} />
+       <QuestionsTable questions={currentItems} loading={loading}/>
        <div className="qst-nav-btn">
        <button onClick={handleClickBack}>Back</button>
         <Pagination itemsPerPage={itemsPerPage} totalItems={questions.length} paginate={paginate} />

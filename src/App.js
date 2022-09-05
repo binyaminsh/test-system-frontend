@@ -23,7 +23,8 @@ function App() {
           <Route path="/" element={<Account />} />
           <Route path="/account" element={<Account />} />
           <Route path="/mainMenu" element={<MainMenu />} />
-          <Route path="/manageQuestions/:topic" element={<ManageQuestions />} />
+          <Route path="manageQuestions" element={<ManageQuestions />} />
+          <Route path="manageQuestions/create" element={<QuestionEditor />} />
           <Route path="/manageTests" element={<ManageTests />} />
           <Route path="/reports" element={<Reports />} />
         </Route>

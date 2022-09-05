@@ -3,8 +3,8 @@ import Question from "./Question";
 const QuestionsTable = ({ questions, loading }) => {
   const headers = [
     "ID",
-    "Question text and tags",
-    "last update",
+    "Question text",
+    "Tags",
     "Question type",
     "Last Updated",
     "# of tests",
