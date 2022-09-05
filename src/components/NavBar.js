@@ -1,13 +1,13 @@
 import React from "react";
 import "../style/navBar.css";
-import { Link, useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
 function NavBar() {
-  const { auth, setAuth } = useAuth();
   const token = localStorage.getItem('token');
+  const location = useLocation();
+  const isLoginPage = location.pathname.includes('login');
   const navigate = useNavigate();
   const handleLogout = (e) => {
-    setAuth({});
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     navigate("/login");
@@ -21,9 +21,11 @@ function NavBar() {
         </h1>
       </span>
       <span className="auth-button">
-        {token ? (
+        {token ? 
+        (
           <button onClick={handleLogout}>Logout</button>
-        ) : (
+        ) : isLoginPage ? null :
+        (
           <button
             onClick={() => {
               navigate("/login");

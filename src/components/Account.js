@@ -1,46 +1,41 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom";
-import axios from '../api/axios';
-
+import { getAllAccounts } from '../services/accountsService';
 
 const Account = () => {
     const [accounts, setAccounts] = useState([]);
-    const token = localStorage.getItem('token');
-    const ACCOUNTS_URL = '/companies';
     const navigate = useNavigate();
     const handleChange = async (e) => {
-        navigate("/mainMenu", { state: { name: e.target.value } })
-
+        navigate("/mainMenu", { state: { id: e.target.value } })
     }
     useEffect(() => {
-        
+
         const getAccounts = async () => {
-            
-            const response = await axios.get(ACCOUNTS_URL, {
-                headers: ({
-                    Authorization: 'Bearer ' + token,
-                })
-            });
-            const a = [...accounts, ...response.data]
-            setAccounts(a);
+            const data = await getAllAccounts();
+           
+            const accountsDb = [...data]
+
+            setAccounts(accountsDb);
         }
         getAccounts();
       }, []);
 
     return (
-        <div>
-            <div className='head'>
-                <h2 > Administration System </h2>
-            </div>
-            <div >
-                <p>choose your account?</p>
-                <div>
-                    <select onChange={handleChange} >
-                        <option value={'Not Selected'}>Not Selected</option>
-                        {accounts.map((account, i) => (<option value={account.name} key={i}>{account.name}</option>))}
-                    </select>
+        <div className='app2'>
+            <section>
+                <div className='head'>
+                    <h2 > Administration System </h2>
                 </div>
-            </div>
+                <div >
+                    <p>choose your account?</p>
+                    <div>
+                        <select onChange={handleChange} >
+                            <option value={'Not Selected'}>Not Selected</option>
+                            {accounts.map((account, i) => (<option value={account._id} key={i}>{account.name}</option>))}
+                        </select>
+                    </div>
+                </div>
+            </section>
         </div >
     )
 }
