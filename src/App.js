@@ -17,13 +17,14 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route element={<RequireAuth />}>
         <Route path="/" element={<Account />} />
         <Route path="/account" element={<Account />} />
         <Route path="/mainMenu" element={<MainMenu />} />
         <Route path="/manageQuestions" element={<ManageQuestions />} />
         <Route path="/manageTests" element={<ManageTests />} />
         <Route path="/reports" element={<Reports />} />
+        <Route path="/NewTest" element={<NewTest />} />
+        <Route element={<RequireAuth />}>
         </Route>
       </Routes>
     </>

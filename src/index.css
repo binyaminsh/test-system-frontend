@@ -26,3 +26,7 @@ h1 ,h4 ,p ,a{
   p{
     padding: 1%;
   }
+
+  button{
+    margin-top: 0;
+  }

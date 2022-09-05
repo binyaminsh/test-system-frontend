@@ -7,68 +7,31 @@ input{
 padding-right:50%;    
 }
 
-.grid-container {
-    display: grid;
-    grid-template-columns: auto auto auto auto auto auto auto auto;
-    gap: 1px;
-    padding: 10px;
-   text-align: center;
-   
-  }
-  
-  .grid-container > div {
-    font-size: 25px;
-  }
+table{
+  border: 2.5px  ridge black;
+  justify-content: center;
+  align-items: center;
+}
+
+.center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
   .item{
       background-color: rgba(218, 107, 34, 0.8);
-      
-      
   }
   .itembg{
 
     background-color: rgba(255, 255, 255, 0.8);
   }
-  
-  .item1 {
-    grid-column-start: 1;
-    grid-column-end: 1;
-    
-    
-  }
-  .item2{
-    grid-column-start: 2;
-    grid-column-end: 2;
-    justify-content: center;
-  }
-  .item3{
-    grid-column-start: 3;
-    grid-column-end: 3;
-    align-items: flex-start;
-  }
-  .item4{
-    grid-column-start: 4;
-    grid-column-end: 4;
-    align-items: flex-start;
-  }
-  .item5{
-    grid-column-start: 5;
-    grid-column-end: 5;
-    align-items: flex-start;
-  }
-  .item6{
-    grid-column-start: 6;
-    grid-column-end: 6;
-    align-items: flex-start;
-  }
-
   .active{
     color: green;
     font-size: 1rem;
   }
 
- .btn{
-   
+ .btn {
     justify-content: center;
     background-color: gray;
     color: white;
@@ -91,6 +54,15 @@ padding-right:50%;
     font-size: 18px;
   }
 
+  Link{
+    justify-content: center;
+    background-color: gray;
+    color: white;
+    font-size: 10px;
+    text-align: center;
+    padding: 10px;
+    border-color: gray;
+  }
 
 .p{
     padding-left:  1%;
