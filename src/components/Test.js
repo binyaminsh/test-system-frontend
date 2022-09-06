@@ -2,32 +2,31 @@ import React from 'react';
 import { Link } from "react-router-dom";
 
 const Test = (props) => {
+
+    const date = new Date(props.test.updatedAt).toLocaleDateString();
+    console.log(props.test);
+
     return (
         <>
             <tr>
                 <td>
-                    {props.test.ID}
+                    {props.test.topic}
+                </td>
+                <td>
+                    {props.test.name}
+                </td>
+                <td>
+                    {props.test.questions.length}
+                </td>
+                <td>
+                    {date}
+                </td>
+                <td>
+                    {props.test.type}
                 </td>
                 <td>
                     <button >
-                        <Link style={{ color: 'black' }} to={props.test.Link}>Copy</Link>
-                    </button>
-                </td>
-                <td>
-                    {props.test.TestName}
-                </td>
-                <td>
-                    {props.test.NumOfQuestion}
-                </td>
-                <td>
-                    {props.test.LastUpdate}
-                </td>
-                <td>
-                    {props.test.Type}
-                </td>
-                <td>
-                    <button >
-                        <Link style={{ color: 'black' }} to={"/newTest"}>Edit</Link>
+                        <Link style={{ color: 'black' }} state={props.test} to={"/newTest"}>Edit</Link>
                     </button>
                     Active
                 </td>

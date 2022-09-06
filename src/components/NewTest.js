@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { getAllQuestions } from '../services/questionsService';
+import { getAllTests } from '../services/testsService';
 import classes from '../style/NewTest.module.css';
+import { Link, useLocation } from 'react-router-dom';
 
 const NewTest = () => {
 
@@ -38,11 +41,128 @@ const NewTest = () => {
             id: 2,
         },
     ]
+    // const questions = [
+    //     {
+    //         content: "what is the weather today?",
+    //         topicId: "630dd84c5116916b919c1201",
+    //         type: "single",
+    //         answers: [
+    //             {
+    //                 id: 1,
+    //                 content: "cold",
+    //                 isCorrect: false
+    //             },
+    //             {
+    //                 id: 2,
+    //                 content: "hot",
+    //                 isCorrect: true
+    //             },
+    //             {
+    //                 id: 3,
+    //                 content: "chill",
+    //                 isCorrect: false
+    //             },
+    //             {
+    //                 id: 4,
+    //                 content: "other",
+    //                 isCorrect: false
+    //             }
+    //         ],
+    //         answersLayout: "vertical",
+    //         tags: [
+    //             "weather"
+    //         ]
+    //     },
+    //     {
+    //         content: "what is the day today?",
+    //         topicId: "630cc84c5116916b919c1201",
+    //         type: "single",
+    //         answers: [
+    //             {
+    //                 id: 1,
+    //                 content: "monday",
+    //                 isCorrect: false
+    //             },
+    //             {
+    //                 id: 2,
+    //                 content: "thusday",
+    //                 isCorrect: true
+    //             },
+    //             {
+    //                 id: 3,
+    //                 content: "friday",
+    //                 isCorrect: false
+    //             },
+    //             {
+    //                 id: 4,
+    //                 content: "other",
+    //                 isCorrect: false
+    //             }
+    //         ],
+    //         answersLayout: "vertical",
+    //         tags: [
+    //             "Days"
+    //         ]
+    //     },
+    //     {
+    //         content: "what is the month today?",
+    //         topicId: "630cc84d5116916b919c1201",
+    //         type: "single",
+    //         answers: [
+    //             {
+    //                 id: 1,
+    //                 content: "januar",
+    //                 isCorrect: false
+    //             },
+    //             {
+    //                 id: 2,
+    //                 content: "july",
+    //                 isCorrect: true
+    //             },
+    //             {
+    //                 id: 3,
+    //                 content: "june",
+    //                 isCorrect: false
+    //             },
+    //             {
+    //                 id: 4,
+    //                 content: "other",
+    //                 isCorrect: false
+    //             }
+    //         ],
+    //         answersLayout: "vertical",
+    //         tags: [
+    //             "month"
+    //         ]
+    //     },
+    // ]
+
+    const location = useLocation();
+    const test = location.state;
+    console.log(test);
+
+    const [language, setLanguage] = useState();
+
+    const [selectedQuestion, setSelectedQuestion] = useState([]);
+
+    const handleChangeCheckBox = (e, q) => {
+        console.log(q);
+        console.log(e.target.name);
+        setSelectedQuestion(
+            [...selectedQuestion, q]
+        )
+        console.log([...selectedQuestion, q]);
+    };
 
     const handleChange = (e) => {
+
         setType({
             ...type, [e.target.name]: e.target.value
         })
+    };
+
+    const handleChangeLanguage = (e) => {
+        setLanguage(e.target.value)
     };
 
     const [type, setType] = useState({
@@ -57,19 +177,38 @@ const NewTest = () => {
         massageSubjectFailling: "",
         massageBodyFailling: "",
         filter: "",
-        language: "",
-        testType: "",
-
+        type: "",
+        questions: [],
     })
 
+
+    const [question, setQuestion] = useState([]);
+
+    const getQuestion = async () => {
+        try {
+            const data = await getAllQuestions("630dd84c5116916b919c1201");
+            setQuestion(data);
+            console.log(data);
+        }
+        catch (error) {
+            console.log(error.massage);
+        }
+    }
+    useEffect(() => {
+        getQuestion();
+        if (test) {
+            setType(test);
+            setLanguage(test.language)
+        }
+    }, [])
 
     return (
         <div>
             <h5 className="item"  >General Test Details</h5>
             <p className={classes.pad}> field of study:  ""צריך לסדר""</p>
             <div className='padding'>
-                <p> Language: <select name="language" onChange={handleChange} >{languages.map((option) => (<option value={option.value} key={option.value}>{option.label}</option>))}</select></p>
-                <p> Test Type: <select name="testType" onChange={handleChange}>{types.map((option) => (<option value={option.value} key={option.value}>{option.label}</option>))}</select></p>
+                <p> Language: <select onChange={handleChangeLanguage} >{languages.map((option) => (<option value={option.value} key={option.value}>{option.label}</option>))}</select></p>
+                <p> Test Type: <select name="type" onChange={handleChange}>{types.map((option) => (<option value={option.value} key={option.value}>{option.label}</option>))}</select></p>
                 <p>Test Name: <input className='input' value={type.testName} name="testName" onChange={(e) => handleChange(e)}></input> </p>
                 <p>Passing Grade: <input className='input' value={type.passingGrade} name="passingGrade" onChange={(e) => handleChange(e)}></input> </p>
                 <div>
@@ -105,17 +244,24 @@ const NewTest = () => {
                     </ul>
                     <p> Filter by tags or content: <input className='input' value={type.filter} name="filter" onChange={(e) => handleChange(e)} /> <button>select</button> </p>
                     <div>
-                        <h6 className={classes.gray}>Currently showing "" questions</h6>
+                        <h6 className={classes.gray}>Currently showing {question.length} questions</h6>
+                        <ul>
+                            {question.map(q => (<li key={q._id}>content : {q.content} type : {q.type} <input type={"checkbox"} name="questions" onChange={(e) => handleChangeCheckBox(e, q.topicId)} /> </li>))}
+                        </ul>
                     </div>
                 </div>
                 <div className='buttons'>
                     <p className='right'>
-                        <button onClick={() => console.log(type)}>Show</button>:
-                        <button onClick={() => console.log(type)}>Create</button>
+                        <button onClick={() => {
+                            setType({
+                                ...type, question: selectedQuestion
+                            })
+                            console.log(type)
+                        }}>Show</button>:
+                        <button onClick={() => console.log(type)}><Link className='black' to={"/NewTests"}>Create A Test</Link></button>
                     </p>
-                    <p className='left'> <button onClick={() => console.log(type)}>Back</button></p>
+                    <p className='left'> <button className={classes.gray}><Link className='black' to={"/ManageTests"}>Manage Tests</Link></button></p>
                 </div>
-
             </div>
         </div>
     )

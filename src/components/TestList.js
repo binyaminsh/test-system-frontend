@@ -19,7 +19,7 @@ const TestList = (props) => {
                 </thead>
                 <tbody>
                     {props.tests.map(test => {
-                        return <Test key={test.ID} test={test} />
+                        return <Test key={test._id} test={test} />
                     })}
                 </tbody>
             </table>
