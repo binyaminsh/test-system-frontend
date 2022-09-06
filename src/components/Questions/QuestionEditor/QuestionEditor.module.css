@@ -1,0 +1,41 @@
+.form-container {
+  padding: 1rem;
+  margin: 1rem auto;
+  width: 50rem;
+  max-width: 95%;
+}
+
+.text-area-container {
+  margin-bottom: 0.5rem;
+}
+
+.text-area-container label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+}
+
+.text-area-container textarea {
+  width: 70%;
+}
+
+.text-area-container select {
+  width: 15%;
+}
+
+.answers-layout-container {
+  margin-bottom: 0.5rem;
+}
+
+.answers-layout-container label {
+  margin-right: 0.5rem;
+}
+
+.tags-container {
+  margin: 0.5rem 1rem;
+  margin-left: 0;
+}
+
+.tags-container label {
+  padding-right: 0.5rem;
+}

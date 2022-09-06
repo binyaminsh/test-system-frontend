@@ -15,10 +15,10 @@ export const createTest = async (createTestDto) => {
         console.log(error.message);
     }
 }
-export const getAllTests = async () => {
+export const getAllTests = async (topicId) => {
       
     try {
-        const response = await axios.get(URL, {
+        const response = await axios.get(`${URL}?topicId=${topicId}`, {
             withCredentials: true,
             headers: ({
                 Authorization: 'Bearer ' + token,

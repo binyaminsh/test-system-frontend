@@ -1,0 +1,61 @@
+.container {
+  position: fixed;
+  top: 30vh;
+  left: 10%;
+  width: 80%;
+  border-radius: 5px;
+  z-index: 100;
+  background-color: whitesmoke;
+  overflow: hidden;
+}
+
+.header {
+    background-color: #524242;
+    padding: 1rem;
+}
+
+.header h3 {
+    color: white;
+    margin: 0;
+}
+
+.answers {
+    padding: 2rem;
+    color: black;
+}
+
+.answers-horizontal {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.answers-horizontal li {
+    margin: 0.5rem auto;
+}
+
+.footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+}
+
+.footer button {
+    background-color: #524242;
+    color: white;
+    padding: 0.5rem;
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.75);
+}
+
+.additional {
+    padding: 1rem;
+    color: black;
+}

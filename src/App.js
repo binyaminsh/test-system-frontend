@@ -8,8 +8,7 @@ import Reports from './components/Reports';
 import { Route, Routes } from "react-router-dom";
 import RequireAuth from './components/RequireAuth';
 import Register from './components/Register';
-import NewTest from './components/NewTest';
-import QuestionEditor from './components/QuestionEditor';
+import QuestionEditor from './components/Questions/QuestionEditor/QuestionEditor';
 
 function App() {
   return (
