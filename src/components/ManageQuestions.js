@@ -43,7 +43,7 @@ const ManageQuestions = () => {
   return (
     <main>
       <h4>available questions for {topic.name}</h4>
-       <SearchBar data={questions} setSearchResults={setSearchResults}/>
+       <SearchBar data={questions} setSearchResults={setSearchResults} properties={['tags', 'content']}/>
        <QuestionsTable questions={currentItems} loading={loading}/>
        <div className="qst-nav-btn">
        <button onClick={handleClickBack}>Back</button>

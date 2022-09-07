@@ -1,24 +1,25 @@
-
-
-const SearchBar = ({ data, setSearchResults }) => {
-    
-    const handleSearchChange = (e) => {
-        if(!e.target.value) return setSearchResults(data);
-
-        const results = data.filter((item) => item.tags.includes(e.target.value) || 
-        item.content.includes(e.target.value)
-        )
-
-        setSearchResults(results);
-    }
+const SearchBar = ({ data, setSearchResults, properties }) => {
+  const handleSearchChange = (e) => {
+    const results = data.filter((item) => {
+      for (const p of properties) {
+        if (typeof item[p] === typeof []) {
+          return item[p].some((t) => t.includes(e.target.value.trim()));
+        } else {
+          return item[p].includes(e.target.value.trim());
+        }
+      }
+      return item;
+    });
+    setSearchResults(results);
+  };
   return (
-    <input 
-    type="text"
-     placeholder="search..."
-     className="search-bar"
-     onChange={handleSearchChange}
+    <input
+      type="text"
+      placeholder="search..."
+      className="search-bar"
+      onChange={handleSearchChange}
     />
-  )
-}
+  );
+};
 
-export default SearchBar
+export default SearchBar;

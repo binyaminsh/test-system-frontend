@@ -1,15 +1,15 @@
 import React from "react";
+import styles from "./QuestionEditor.module.css";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { createQuestion } from "../services/questionsService";
-import AnswersList from "./Answers/AnswersList";
-import { updatedQuestion } from "../services/questionsService";
+import { createQuestion } from "../../../services/questionsService";
+import AnswersList from "../../Answers/AnswersList";
+import { updatedQuestion } from "../../../services/questionsService";
+import PreviewQuestionOverlay from "./PreviewQuestionOverlay";
 const QuestionEditor = () => {
   const navigate = useNavigate();
-  // const { state: selectedTopic, state: question } = useLocation();
   const { state } = useLocation();
-  // console.log(question)
   const [answers, setAnswers] = useState([
     { id: 1, content: "", isCorrect: true },
     { id: 2, content: "", isCorrect: false },
@@ -25,30 +25,31 @@ const QuestionEditor = () => {
     answersLayout: "horizontal",
     tags: [],
   });
+  const [isPreview, setIsPreview] = useState(false);
   useEffect(() => {
-    if(state.question) {
-      setAnswers(state.question.answers)
-      setQuestionType(state.question.type)
+    if (state.question) {
+      setAnswers(state.question.answers);
+      setQuestionType(state.question.type);
       setNewQuestion({
         content: state.question.content,
         answersLayout: state.question.answersLayout,
         lowerContent: state.question.lowerContent,
-        tags: state.question.tags
-      })
+        tags: state.question.tags,
+      });
     }
-  }, [])
+  }, []);
   const handleChange = (e) => {
     setNewQuestion((prevQuestion) => {
       const updatedQuestion = { ...prevQuestion };
-      if(e.target.name === 'tags') {
-        updatedQuestion[e.target.name] = (e.target.value).split(/[ ,]+/)
+      if (e.target.name === "tags") {
+        updatedQuestion[e.target.name] = e.target.value.split(/[ ,]+/);
       } else {
         updatedQuestion[e.target.name] = e.target.value;
       }
       return updatedQuestion;
     });
   };
-
+  const previewBackHandler = () => setIsPreview(false);
   const questionTypeChangeHandler = (e) => {
     setQuestionType(e.target.value);
     onQuestionTypeChange(e.target.value);
@@ -71,25 +72,36 @@ const QuestionEditor = () => {
     e.preventDefault();
     try {
       let response;
-      if(state.question) {
-        response = await updatedQuestion(state.question._id, {...newQuestion, type: questionType, answers: answers});
+      if (state.question) {
+        response = await updatedQuestion(state.question._id, {
+          ...newQuestion,
+          type: questionType,
+          answers: answers,
+        });
       } else {
-        response = await createQuestion({...newQuestion, type: questionType});
+        response = await createQuestion({ ...newQuestion, type: questionType });
       }
-      if(response) navigate('/manageQuestions', { state: {selectedTopic: state.selectedTopic} })
+      if (response)
+        navigate("/manageQuestions", {
+          state: { selectedTopic: state.selectedTopic },
+        });
     } catch (error) {
-      console.log(error.message)
-    } 
-  }
+      console.log(error.message);
+    }
+  };
   const handleBack = () => navigate(-1);
-  const handleShow = () =>
-    //show page with form details without submit
-    console.log(newQuestion);
+  const handleShow = () => setIsPreview(true);
   return (
     <>
-      <form onSubmit={submitHandler} className="new-form">
-        <label>Field: {state.selectedTopic.name}</label>
-        <div>
+      {isPreview && (
+        <PreviewQuestionOverlay
+          question={newQuestion}
+          previewBackHandler={previewBackHandler}
+        />
+      )}
+      <form onSubmit={submitHandler} className={styles["form-container"]}>
+        <h4>Field: {state.selectedTopic.name}</h4>
+        <div className={styles["text-area-container"]}>
           <label>
             Question type:
             <select name="type" onChange={questionTypeChangeHandler}>
@@ -100,8 +112,6 @@ const QuestionEditor = () => {
               ))}
             </select>
           </label>
-        </div>
-        <div>
           <label>
             Question text:
             <textarea
@@ -112,8 +122,6 @@ const QuestionEditor = () => {
               placeholder="type a question..."
             />
           </label>
-        </div>
-        <div>
           <label>
             Text below question:
             <textarea
@@ -131,7 +139,7 @@ const QuestionEditor = () => {
             questionType={questionType}
           />
         </div>
-        <div>
+        <div className={styles["answers-layout-container"]}>
           <label>
             Answers layout:
             <label>
@@ -142,6 +150,7 @@ const QuestionEditor = () => {
                 type="radio"
                 onChange={handleChange}
                 value={"vertical"}
+                style={{ marginLeft: "0.5rem" }}
               />{" "}
               vertical
             </label>
@@ -158,28 +167,30 @@ const QuestionEditor = () => {
             </label>
           </label>
         </div>
-        <div>
+        <div className={styles["tags-container"]}>
           <label>
             Tags:
-            <span>
-              <input
-                name="tags"
-                required
-                value={newQuestion.tags}
-                type={"text"}
-                onChange={handleChange}
-                placeholder="add tags..."
-              />
-            </span>
+            <input
+              name="tags"
+              required
+              value={newQuestion.tags}
+              type={"text"}
+              onChange={handleChange}
+              placeholder="add tags..."
+              style={{ marginLeft: "0.5rem" }}
+            />
           </label>
         </div>
-        <button type="submit">Save</button>
-        
+        <div>
+          <button type="button" onClick={handleBack}>
+            Back
+          </button>
+          <button type="submit">Save</button>
+          <button type="button" onClick={handleShow}>
+            Show
+          </button>
+        </div>
       </form>
-      <div>
-        <button onClick={handleBack}>Back</button>
-        <button onClick={handleShow}>Show</button>
-      </div>
     </>
   );
 };

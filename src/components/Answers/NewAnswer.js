@@ -1,6 +1,7 @@
+import styles from './NewAnswer.module.css';
 const NewAnswer = (props) => {
   return (
-    <div key={props.answer.id}>
+    <div key={props.answer.id} className={styles.controls}>
       <input
         type={"text"}
         required
