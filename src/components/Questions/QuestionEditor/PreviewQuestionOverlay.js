@@ -16,7 +16,7 @@ const PreviewQuestionOverlay = ({ question, previewBackHandler }) => {
         className={`${styles.answers} ${question.answersLayout === "horizontal" ? styles['answers-horizontal'] : '' }`}
       >
         {question.answers.map((answer) => (
-          <li>{answer.content}</li>
+          <li key={answer.id}>{answer.content}</li>
         ))}
       </ol>
          <footer className={styles.footer}><button onClick={previewBackHandler}>Back</button></footer>   

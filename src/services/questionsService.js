@@ -37,7 +37,7 @@ export const updatedQuestion = async (id, updateQuestionDto) => {
   console.log(id)
   console.log(updateQuestionDto)
   try {
-    const response = await axios.patch(`${URL}${id}`, updateQuestionDto, {
+    const response = await axios.patch(`${URL}/${id}`, updateQuestionDto, {
       withCredentials: true,
       headers: ({
         Authorization: "Bearer " + token,
