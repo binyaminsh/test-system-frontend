@@ -9,7 +9,7 @@ import { Route, Routes } from "react-router-dom";
 import RequireAuth from './components/RequireAuth';
 import Register from './components/Register';
 import QuestionEditor from './components/Questions/QuestionEditor/QuestionEditor';
-
+import NewTest from './components/NewTest'
 function App() {
   return (
     <>
@@ -17,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route element={<RequireAuth />}>
         <Route path='/newTest' element={<NewTest />} />
         <Route path="/" element={<Account />} />
         <Route path="/account" element={<Account />} />
@@ -25,7 +26,7 @@ function App() {
         <Route path="manageQuestions/create" element={<QuestionEditor />} />
         <Route path="/manageTests" element={<ManageTests />} />
         <Route path="/reports" element={<Reports />} />
-        <Route element={<RequireAuth />}>
+        
         </Route>
       </Routes>
     </>

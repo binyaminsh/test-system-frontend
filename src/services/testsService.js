@@ -1,7 +1,8 @@
 import axios from 'axios';
-const token = localStorage.getItem('token');
+
 const URL = process.env.REACT_APP_TESTS_URL;
 export const createTest = async (createTestDto) => {
+    const token = localStorage.getItem('token');
     try {
         const response = await axios.post(URL,
             JSON.stringify(createTestDto), {
@@ -16,7 +17,7 @@ export const createTest = async (createTestDto) => {
     }
 }
 export const getAllTests = async (topicId) => {
-      
+    const token = localStorage.getItem('token');
     try {
         const response = await axios.get(`${URL}/ByTopic?topicId=${topicId}`, {
             withCredentials: true,
