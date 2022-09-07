@@ -18,7 +18,7 @@ export const createTest = async (createTestDto) => {
 export const getAllTests = async (topicId) => {
       
     try {
-        const response = await axios.get(`${URL}?topicId=${topicId}`, {
+        const response = await axios.get(`${URL}/ByTopic?topicId=${topicId}`, {
             withCredentials: true,
             headers: ({
                 Authorization: 'Bearer ' + token,
